@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Your Collection</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Your Collection</h1>
+    <div id="collection" class="collection-grid"></div>
+    <a href="index.html" class="btn back-btn">Back</a>
+
+    <script src="js/cards.js"></script>
+    <script>
+      let player = JSON.parse(localStorage.getItem("player")) || { cards: [] };
+      let collectionDiv = document.getElementById("collection");
+
+      // Count how many of each card the player owns
+      let counts = {};
+      player.cards.forEach((card) => {
+        counts[card.name] = (counts[card.name] || 0) + 1;
+      });
+
+      // Render every card in the master list
+      cards.forEach((cardDef) => {
+        let owned = counts[cardDef.name] || 0;
+        let cardEl = document.createElement("div");
+        cardEl.className = "card-result";
+
+        if (owned > 0) {
+          cardEl.innerHTML = `
+            <img src="${cardDef.img}" alt="${cardDef.name}" class="card-img">
+            <div class="name">${cardDef.name}</div>
+            <div class="rarity">${cardDef.rarity} - ${cardDef.element}</div>
+            <div>Power: ${cardDef.power}</div>
+            ${owned > 1 ? `<div class="count-badge">x${owned}</div>` : ""}
+          `;
+        } else {
+          cardEl.classList.add("locked");
+          cardEl.innerHTML = `
+            <div class="locked-overlay">
+              <img src="${cardDef.img}" alt="Locked" class="card-img locked-img">
+            </div>
+            <div class="name">???</div>
+            <div class="rarity">???</div>
+            <div class="unknown">?</div>
+          `;
+        }
+
+        collectionDiv.appendChild(cardEl);
+      });
+    </script>
+  </body>
+</html>

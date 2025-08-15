@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pull Cards</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Pull Cards</h1>
+    <div class="status-box">
+      <p>Currency: <span id="currency">0</span></p>
+    </div>
+
+    <div class="menu">
+      <button id="pullOne" class="btn">Pull 1 (10 currency)</button>
+      <button id="pullTen" class="btn">Pull 10 (100 currency)</button>
+    </div>
+
+    <div id="results" class="results-grid"></div>
+    <p id="message" class="message"></p>
+
+    <div>
+      <a href="collection.html" class="btn">View Collection</a>
+      <a href="index.html" class="btn back-btn">Back</a>
+    </div>
+
+    <script src="js/cards.js"></script>
+    <script src="js/gacha.js"></script>
+    <script src="js/logger.js"></script>
+    <script>
+      let player = JSON.parse(localStorage.getItem("player"));
+
+      function updateCurrency() {
+        document.getElementById("currency").textContent = player.currency;
+        localStorage.setItem("player", JSON.stringify(player));
+      }
+
+      function tryPull(amount) {
+        let cost = amount * 10;
+        if (player.currency < cost) {
+          document.getElementById("message").textContent =
+            "Insufficient currency!";
+          return;
+        }
+        document.getElementById("message").textContent = "";
+        let resultsDiv = document.getElementById("results");
+        resultsDiv.innerHTML = ""; // clear previous pulls
+
+        for (let i = 0; i < amount; i++) {
+          let card = pullCard();
+          player.cards.push(card);
+          player.currency -= 10;
+          logAction("pull", { card });
+
+          // create a card display
+          let cardEl = document.createElement("div");
+          cardEl.classList.add("card");
+          cardEl.innerHTML = `
+      <img src="${card.img}" alt="${card.name}">
+      <p><strong>${card.name}</strong></p>
+      <p>${card.element} • Power: ${card.power}</p>
+      <p>Rarity: ${card.rarity}</p>
+    `;
+          resultsDiv.appendChild(cardEl);
+        }
+        updateCurrency();
+      }
+
+      document
+        .getElementById("pullOne")
+        .addEventListener("click", () => tryPull(1));
+      document
+        .getElementById("pullTen")
+        .addEventListener("click", () => tryPull(10));
+
+      updateCurrency();
+    </script>
+  </body>
+</html>
