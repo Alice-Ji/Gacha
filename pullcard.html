@@ -20,6 +20,23 @@
       <button id="pullTen" class="btn">Pull 10 (100 currency)</button>
     </div>
 
+    <!-- ad currency button -->
+    <div class="menu">
+      <button id="addCurrency" class="btn">Add 100 Currency</button>
+    </div>
+
+    <!-- Summoning Circle Loader -->
+    <div id="loader" class="summoning-loader hidden">
+      <div class="outer-ring"></div>
+      <div class="inner-ring"></div>
+      <div class="aura"></div>
+      <div class="sparkles"></div>
+    </div>
+
+    <div id="results" class="results-grid"></div>
+
+    <div id="results" class="results-grid"></div>
+
     <div id="results" class="results-grid"></div>
     <p id="message" class="message"></p>
 
@@ -46,36 +63,50 @@
             "Insufficient currency!";
           return;
         }
+
         document.getElementById("message").textContent = "";
+        let loader = document.getElementById("loader");
         let resultsDiv = document.getElementById("results");
-        resultsDiv.innerHTML = ""; // clear previous pulls
 
-        for (let i = 0; i < amount; i++) {
-          let card = pullCard();
-          player.cards.push(card);
-          player.currency -= 10;
-          logAction("pull", { card });
+        resultsDiv.innerHTML = ""; // clear old results
+        loader.classList.remove("hidden"); // show loader
 
-          // create a card display
-          let cardEl = document.createElement("div");
-          cardEl.classList.add("card");
-          cardEl.innerHTML = `
-      <img src="${card.img}" alt="${card.name}">
-      <p><strong>${card.name}</strong></p>
-      <p>${card.element} • Power: ${card.power}</p>
-      <p>Rarity: ${card.rarity}</p>
-    `;
-          resultsDiv.appendChild(cardEl);
-        }
-        updateCurrency();
+        setTimeout(() => {
+          for (let i = 0; i < amount; i++) {
+            let card = pullCard();
+            player.cards.push(card);
+            player.currency -= 10;
+            logAction("pull", { card });
+
+            let cardEl = document.createElement("div");
+            cardEl.classList.add("card", card.rarity);
+            cardEl.innerHTML = `
+        <img src="${card.img}" alt="${card.name}">
+        <p><strong>${card.name}</strong></p>
+        <p>${card.element} • Power: ${card.power}</p>
+        <p>Rarity: ${card.rarity}</p>
+      `;
+            resultsDiv.appendChild(cardEl);
+          }
+          updateCurrency();
+          loader.classList.add("hidden"); // hide loader
+        }, 2000); // 2s suspense
       }
 
+      // Button events
       document
         .getElementById("pullOne")
         .addEventListener("click", () => tryPull(1));
       document
         .getElementById("pullTen")
         .addEventListener("click", () => tryPull(10));
+
+      // currency button event
+      document.getElementById("addCurrency").addEventListener("click", () => {
+        player.currency += 100;
+        logAction("add_currency", { amount: 100, newBalance: player.currency });
+        updateCurrency();
+      });
 
       updateCurrency();
     </script>
