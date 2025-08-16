@@ -8,21 +8,95 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        font-family: "Cinzel Decorative", cursive;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #111;
+        color: #111;
+      }
+
+      .container {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        max-width: 1000px;
+      }
+
+      .cover-img {
+        max-width: 400px;
+        border-radius: 10px;
+      }
+
+      .right-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .status-box p {
+        margin: 5px 0;
+      }
+
+      .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .btn {
+        background: #4b0082;
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        transition: background 0.3s ease;
+      }
+
+      .btn:hover {
+        background: #6a0dad;
+      }
+
+      .back-btn {
+        background: #222;
+      }
+
+      .back-btn:hover {
+        background: #444;
+      }
+    </style>
   </head>
   <body>
-    <h1>Battle of the Elements</h1>
-    <div class="status-box">
-      <p>Currency: <span id="currency">0</span></p>
-      <p>Battle Power: <span id="power">0</span></p>
-      <p>Level: <span id="level">1</span></p>
-    </div>
+    <div class="container">
+      <!-- Left side image -->
+      <img
+        src="https://alice-ji.github.io/Gacha/assets/cover.png"
+        alt="Game Cover"
+        class="cover-img"
+      />
 
-    <div class="menu">
-      <a href="pullcard.html" class="btn">Pull Cards</a>
-      <a href="battle.html" class="btn">Battle</a>
-      <a href="collection.html" class="btn">Collection</a>
-      <div>
-      <button id="resetBtn" class="btn back-btn">Reset Game</button>
+      <!-- Right side panel -->
+      <div class="right-panel">
+        <div class="status-box">
+          <p>Currency: <span id="currency">0</span></p>
+          <p>Battle Power: <span id="power">0</span></p>
+          <p>Level: <span id="level">1</span></p>
+        </div>
+
+        <div class="menu">
+          <a href="pullcard.html" class="btn">Pull Cards</a>
+          <a href="battle.html" class="btn">Battle</a>
+          <a href="collection.html" class="btn">Collection</a>
+          <button id="resetBtn" class="btn back-btn">Reset Game</button>
+        </div>
+      </div>
     </div>
 
     <script src="js/cards.js"></script>

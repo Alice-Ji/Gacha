@@ -19,6 +19,7 @@
       <button id="pullOne" class="btn">Pull 1 (10 currency)</button>
       <button id="pullTen" class="btn">Pull 10 (100 currency)</button>
     </div>
+    <p id="message" class="message"></p>
 
     <!-- ad currency button -->
     <div class="menu">
@@ -38,11 +39,10 @@
     <div id="results" class="results-grid"></div>
 
     <div id="results" class="results-grid"></div>
-    <p id="message" class="message"></p>
 
     <div>
       <a href="collection.html" class="btn">View Collection</a>
-      <a href="index.html" class="btn back-btn">Back</a>
+      <a href="index.html" class="btn back-btn">Menu</a>
     </div>
 
     <script src="js/cards.js"></script>
@@ -83,7 +83,7 @@
             cardEl.innerHTML = `
         <img src="${card.img}" alt="${card.name}">
         <p><strong>${card.name}</strong></p>
-        <p>${card.element} • Power: ${card.power}</p>
+        <p>Battle Power: ${card.power}</p>
         <p>Rarity: ${card.rarity}</p>
       `;
             resultsDiv.appendChild(cardEl);
