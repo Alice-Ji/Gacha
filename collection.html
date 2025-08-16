@@ -56,9 +56,9 @@
         if (owned > 0) {
           cardEl.innerHTML = `
             <img src="${cardDef.img}" alt="${cardDef.name}" class="card-img">
-            <div class="name">${cardDef.name}</div>
+            <div class="name"><strong>${cardDef.name}</div>
             <div class="rarity">${cardDef.rarity}</div>
-            <div>Battle Power: ${cardDef.power}</div>
+            <div>BP: ${cardDef.power}</div>
             ${owned > 1 ? `<div class="count-badge">x${owned}</div>` : ""}
           `;
         } else {
