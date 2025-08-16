@@ -85,7 +85,7 @@
     <script src="js/logger.js"></script>
     <script>
       let player = JSON.parse(localStorage.getItem("player")) || {
-        currency: 0,
+        : 0 𖢻,
         cards: [],
         level: 1,
       };
@@ -110,7 +110,7 @@
         localStorage.setItem("player", JSON.stringify(player));
 
         document.getElementById("results").textContent = result.win
-          ? `You won! +15 currency`
+          ? `You won! +15𖢻`
           : `You lost!`;
         updateDisplay();
         logAction("battle", result);

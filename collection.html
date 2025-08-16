@@ -22,7 +22,9 @@
 
     <script src="js/cards.js"></script>
     <script>
-      let player = JSON.parse(localStorage.getItem("player")) || { cards: [] };
+      let player = JSON.parse(localStorage.getItem("player")) || {
+        cards: [],
+      };
       let collectionDiv = document.getElementById("collection");
 
       // Count how many of each card the player owns
@@ -67,8 +69,6 @@
               <img src="${cardDef.img}" alt="Locked" class="card-img locked-img">
             </div>
             <div class="name">???</div>
-            <div class="rarity">???</div>
-            <div class="unknown">?</div>
           `;
         }
 

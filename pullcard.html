@@ -10,53 +10,56 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- Banner / Loader / Results container -->
-    <div id="display-container" class="display-container">
-      <!-- Banner Image -->
-      <div id="banner" class="banner-container">
-        <img
-          src="https://alice-ji.github.io/Gacha/assets/normalbanner.png"
-          alt="Game Banner"
-          class="banner-img"
-        />
+
+      <!-- Banner / Loader / Results container -->
+      <div id="display-container" class="display-container">
+        <!-- Banner Image -->
+        <div id="banner" class="banner-container">
+          <img
+            src="https://alice-ji.github.io/Gacha/assets/normalbanner.png"
+            alt="Game Banner"
+            class="banner-img"
+          />
+        </div>
+
+        <!-- Summoning Circle Loader -->
+        <div id="loader" class="hidden">
+          <img
+            src="https://alice-ji.github.io/Gacha/assets/lightning-sphere-effect.gif"
+            alt="Summoning Effect"
+            class="summon-gif"
+          />
+        </div>
+        <style>
+          .hidden {
+            display: none;
+          }
+          .summon-gif {
+            width: 300px; /* adjust as needed */
+            height: auto;
+            display: block;
+            margin: 20px auto;
+          }
+        </style>
+
+        <!-- Results Grid -->
+        <div id="results" class="results-grid hidden"></div>
       </div>
 
-      <!-- Summoning Circle Loader -->
-      <div id="loader" class="hidden">
-        <img
-          src="https://alice-ji.github.io/Gacha/assets/lightning-sphere-effect.gif"
-          alt="Summoning Effect"
-          class="summon-gif"
-        />
+      <div class="button-row">
+        <div class="status-box">
+          <p>𖢻 <span id="currency">0</span></p>
+        </div>
+        <button id="pullOne" class="btn">Summon 1 (𖢻10)</button>
+        <button id="pullTen" class="btn">Summon 10 (𖢻100)</button>
+        <button id="viewBanner" class="btn">View Banner</button>
       </div>
-      <style>
-        .hidden {
-          display: none;
-        }
-        .summon-gif {
-          width: 300px; /* adjust as needed */
-          height: auto;
-          display: block;
-          margin: 20px auto;
-        }
-      </style>
-
-      <!-- Results Grid -->
-      <div id="results" class="results-grid hidden"></div>
-    </div>
-
-    <div class="status-box">
-    <p>Currency: <span id="currency">0</span></p>
-    </div>
-
-      <button id="pullOne" class="btn">Summon 1 (10 currency)</button>
-      <button id="pullTen" class="btn">Summon 10 (100 currency)</button>
     </div>
     <p id="message" class="message"></p>
 
     <!-- ad currency button -->
     <div class="menu">
-      <button id="addCurrency" class="btn">Add 100 Currency</button>
+      <button id="addCurrency" class="btn">Add 𖢻100</button>
     </div>
 
     <div>
@@ -123,21 +126,30 @@
       }
 
       // Button events
-      document
-        .getElementById("pullOne")
-        .addEventListener("click", () => tryPull(1));
-      document
-        .getElementById("pullTen")
-        .addEventListener("click", () => tryPull(10));
+      document.getElementById("pullOne").addEventListener("click", () => tryPull(1));
+      document.getElementById("pullTen").addEventListener("click", () => tryPull(10));
 
       // currency button event
       document.getElementById("addCurrency").addEventListener("click", () => {
-        player.currency += 100;
-        logAction("add_currency", { amount: 100, newBalance: player.currency });
-        updateCurrency();
+      player.currency += 100;
+      logAction("add_currency", { amount: 100, newBalance: player.currency });
+      updateCurrency();
       });
 
-      updateCurrency();
+      // view banner button event
+      document.getElementById("viewBanner").addEventListener("click", () => {
+      let banner = document.getElementById("banner");
+      let loader = document.getElementById("loader");
+      let resultsDiv = document.getElementById("results");
+
+      // Show banner, hide everything else
+      banner.classList.remove("hidden");
+      loader.classList.add("hidden");
+      resultsDiv.classList.add("hidden");
+    });
+
+    // Keep currency updated
+    updateCurrency();
     </script>
-  </body>
+    </div>
 </html>
