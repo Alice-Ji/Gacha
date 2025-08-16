@@ -8,25 +8,78 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        font-family: "Cinzel Decorative", cursive;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #111;
+        color: #111;
+      }
+
+      .container {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        max-width: 1000px;
+      }
+
+      .enemy-img {
+        max-width: 400px;
+        border-radius: 10px;
+      }
+
+      .right-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+      }
+
+      .status-box p {
+        margin: 5px 0;
+      }
+
+      .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+      }
+
+      #results {
+        font-style: italic;
+      }
+    </style>
   </head>
   <body>
-    <h1>Battle</h1>
-    <div class="status-box">
-      <p>Level: <span id="level">1</span></p>
-      <p>Enemy Power: <span id="enemyPower">0</span></p>
-      <p>Your Power: <span id="playerPower">0</span></p>
+    <div class="container">
+      <!-- Left: Enemy Image -->
+      <img
+        src="https://alice-ji.github.io/Gacha/assets/enemy.png"
+        alt="Enemy"
+        class="enemy-img"
+      />
+
+      <!-- Right: Player Info + Battle -->
+      <div class="right-panel">
+        <h1>Battle</h1>
+        <div class="status-box">
+          <p>Level: <span id="level">1</span></p>
+          <p>Enemy Power: <span id="enemyPower">0</span></p>
+          <p>Your Power: <span id="playerPower">0</span></p>
+        </div>
+
+        <button id="battleBtn" class="btn">Battle!</button>
+        <div id="results"></div>
+
+        <a href="index.html" class="btn back-btn">Menu</a>
+      </div>
     </div>
-
-    <img
-      src="https://alice-ji.github.io/Gacha/assets/enemy.png"
-      alt="Enemy"
-      class="enemy-img"
-    />
-
-    <button id="battleBtn" class="btn">Battle!</button>
-    <div id="results"></div>
-
-    <a href="index.html" class="btn back-btn">Menu</a>
 
     <script src="js/battle.js"></script>
     <script src="js/logger.js"></script>

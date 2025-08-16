@@ -1,6 +1,6 @@
 /* ===== Global Aesthetic ===== */
 body {
-  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  font-family: "Cinzel Decorative", cursive;
   background: linear-gradient(to bottom, #fef9f2, #f3e5d8);
   color: #2f2f2f;
   text-align: center;
@@ -35,30 +35,63 @@ h1 {
 
 /* ===== Buttons ===== */
 .btn {
+  font-size: 1rem;
+  font-family: "Cinzel Decorative", cursive;
   display: inline-block;
-  padding: 12px 22px;
+  padding: 10px 20px;
   margin: 8px;
-  border-radius: 30px;
+  border-radius: 5px;
   text-decoration: none;
   font-weight: bold;
   border: 2px solid #c9a368;
-  background: linear-gradient(to bottom, #fdd47e, #e9b14a);
-  color: #4a3317;
+  background: #4b0082;
+  color: #fff;
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .btn:hover {
+  font-family: "Cinzel Decorative", cursive;
+  background: #6a0dad;
   transform: scale(1.05);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
 }
 
 .back-btn {
-  background: linear-gradient(to bottom, #a2d5f2, #74b9d6);
-  border-color: #4b93aa;
+  font-size: 1rem;
+  font-family: "Cinzel Decorative", cursive;
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 8px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  border: 2px solid #c9a368;
+  background: #4b0082;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.back-btn:hover {
+  font-family: "Cinzel Decorative", cursive;
+  background: #c9a368;
+  transform: scale(1.05);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
 }
 
 /* ===== Pull Results & Collection ===== */
+.banner-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.banner-img {
+  max-width: 50%;
+  height: auto;
+  border-radius: 8px;
+}
+
 .results-grid {
   display: grid;
   grid-template-columns: repeat(5, auto); /* shrink to card width */
@@ -176,112 +209,19 @@ h1 {
   margin-top: 10px;
 }
 
-/* ===== Enemy Image ===== */
-.enemy-img {
-  width: 150px;
-  margin: 10px 0;
-}
-
 /* Summon circle*/
 .hidden {
   display: none;
 }
 
 .summoning-loader {
-  position: relative;
-  width: 140px;
-  height: 140px;
-  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
 }
 
-/* Outer Ring */
-.outer-ring {
-  position: absolute;
-  inset: 0;
-  border: 3px solid #8e5bff; /* vivid purple */
-  border-radius: 50%;
-  box-shadow: 0 0 20px rgba(142, 91, 255, 0.8), 0 0 40px rgba(142, 91, 255, 0.5);
-  animation: spin 6s linear infinite;
-}
-
-/* Inner Ring */
-.inner-ring {
-  position: absolute;
-  top: 25%;
-  left: 25%;
-  width: 50%;
-  height: 50%;
-  border: 2px solid #6bd3ff; /* bright cyan-blue */
-  border-radius: 50%;
-  box-shadow: 0 0 15px rgba(107, 211, 255, 0.8);
-  animation: spin-reverse 4s linear infinite;
-}
-
-/* Aura Glow */
-.aura {
-  position: absolute;
-  inset: -15%;
-  background: radial-gradient(
-    circle,
-    rgba(173, 134, 255, 0.4) 0%,
-    rgba(255, 255, 255, 0) 70%
-  );
-  border-radius: 50%;
-  filter: blur(8px);
-  animation: pulse 2.5s ease-in-out infinite;
-}
-
-/* Sparkles (random dots) */
-.sparkles {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(
-      circle,
-      rgba(173, 134, 255, 0.9) 2px,
-      transparent 3px
-    ),
-    radial-gradient(circle, rgba(107, 211, 255, 0.7) 1.5px, transparent 2px),
-    radial-gradient(circle, rgba(173, 134, 255, 0.5) 1px, transparent 1.5px);
-  background-size: 40px 40px, 60px 60px, 80px 80px;
-  animation: sparkleMove 5s linear infinite;
-}
-
-/* Animations */
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes spin-reverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 1;
-  }
-}
-
-@keyframes sparkleMove {
-  from {
-    background-position: 0 0, 0 0, 0 0;
-  }
-  to {
-    background-position: 40px 40px, 60px 60px, 80px 80px;
-  }
+.summoning-gif {
+  width: 300px;
+  height: auto;
 }

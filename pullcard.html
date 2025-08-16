@@ -10,7 +10,14 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Pull Cards</h1>
+    <!-- Banner Image -->
+    <div class="banner-container">
+      <img
+        src="https://alice-ji.github.io/Gacha/assets/normalbanner.png"
+        alt="Game Banner"
+        class="banner-img"
+      />
+    </div>
     <div class="status-box">
       <p>Currency: <span id="currency">0</span></p>
     </div>
@@ -27,19 +34,27 @@
     </div>
 
     <!-- Summoning Circle Loader -->
-    <div id="loader" class="summoning-loader hidden">
-      <div class="outer-ring"></div>
-      <div class="inner-ring"></div>
-      <div class="aura"></div>
-      <div class="sparkles"></div>
+    <div id="loader" class="hidden">
+      <img
+        src="https://alice-ji.github.io/Gacha/assets/lightning-sphere-effect.gif"
+        alt="Summoning Effect"
+        class="summon-gif"
+      />
     </div>
 
-    <div id="results" class="results-grid"></div>
+    <style>
+      .hidden {
+        display: none;
+      }
+      .summon-gif {
+        width: 300px; /* adjust as needed */
+        height: auto;
+        display: block;
+        margin: 20px auto;
+      }
+    </style>
 
     <div id="results" class="results-grid"></div>
-
-    <div id="results" class="results-grid"></div>
-
     <div>
       <a href="collection.html" class="btn">View Collection</a>
       <a href="index.html" class="btn back-btn">Menu</a>
@@ -65,10 +80,12 @@
         }
 
         document.getElementById("message").textContent = "";
+
         let loader = document.getElementById("loader");
         let resultsDiv = document.getElementById("results");
 
         resultsDiv.innerHTML = ""; // clear old results
+        resultsDiv.classList.add("hidden"); // hide results at start
         loader.classList.remove("hidden"); // show loader
 
         setTimeout(() => {
@@ -90,6 +107,7 @@
           }
           updateCurrency();
           loader.classList.add("hidden"); // hide loader
+          resultsDiv.classList.remove("hidden"); // show results
         }, 2000); // 2s suspense
       }
 
