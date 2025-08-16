@@ -81,13 +81,22 @@ h1 {
 }
 
 /* ===== Pull Results & Collection ===== */
-.banner-container {
+.display-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px; /* adjust to match banner width */
+  margin: 0 auto;
+}
+
+.banner-container,
+#loader,
+#results {
+  width: 100%;
   text-align: center;
-  margin-bottom: 20px;
 }
 
 .banner-img {
-  max-width: 50%;
+  max-width: 90%;
   height: auto;
   border-radius: 8px;
 }
@@ -113,7 +122,7 @@ h1 {
   background: #fffaf3;
   border: 2px solid #c9a368;
   border-radius: 10px;
-  padding: 8px;
+  padding: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   text-align: center;
 }
@@ -221,7 +230,9 @@ h1 {
   height: 300px;
 }
 
-.summoning-gif {
+.summon-gif {
   width: 300px;
   height: auto;
+  display: block;
+  margin: 0 auto;
 }

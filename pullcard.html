@@ -10,19 +10,45 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- Banner Image -->
-    <div class="banner-container">
-      <img
-        src="https://alice-ji.github.io/Gacha/assets/normalbanner.png"
-        alt="Game Banner"
-        class="banner-img"
-      />
-    </div>
-    <div class="status-box">
-      <p>Currency: <span id="currency">0</span></p>
+    <!-- Banner / Loader / Results container -->
+    <div id="display-container" class="display-container">
+      <!-- Banner Image -->
+      <div id="banner" class="banner-container">
+        <img
+          src="https://alice-ji.github.io/Gacha/assets/normalbanner.png"
+          alt="Game Banner"
+          class="banner-img"
+        />
+      </div>
+
+      <!-- Summoning Circle Loader -->
+      <div id="loader" class="hidden">
+        <img
+          src="https://alice-ji.github.io/Gacha/assets/lightning-sphere-effect.gif"
+          alt="Summoning Effect"
+          class="summon-gif"
+        />
+      </div>
+      <style>
+        .hidden {
+          display: none;
+        }
+        .summon-gif {
+          width: 300px; /* adjust as needed */
+          height: auto;
+          display: block;
+          margin: 20px auto;
+        }
+      </style>
+
+      <!-- Results Grid -->
+      <div id="results" class="results-grid hidden"></div>
     </div>
 
-    <div class="menu">
+    <div class="status-box">
+    <p>Currency: <span id="currency">0</span></p>
+    </div>
+
       <button id="pullOne" class="btn">Summon 1 (10 currency)</button>
       <button id="pullTen" class="btn">Summon 10 (100 currency)</button>
     </div>
@@ -33,28 +59,6 @@
       <button id="addCurrency" class="btn">Add 100 Currency</button>
     </div>
 
-    <!-- Summoning Circle Loader -->
-    <div id="loader" class="hidden">
-      <img
-        src="https://alice-ji.github.io/Gacha/assets/lightning-sphere-effect.gif"
-        alt="Summoning Effect"
-        class="summon-gif"
-      />
-    </div>
-
-    <style>
-      .hidden {
-        display: none;
-      }
-      .summon-gif {
-        width: 300px; /* adjust as needed */
-        height: auto;
-        display: block;
-        margin: 20px auto;
-      }
-    </style>
-
-    <div id="results" class="results-grid"></div>
     <div>
       <a href="collection.html" class="btn">View Collection</a>
       <a href="index.html" class="btn back-btn">Menu</a>
@@ -81,14 +85,19 @@
 
         document.getElementById("message").textContent = "";
 
+        let banner = document.getElementById("banner");
         let loader = document.getElementById("loader");
         let resultsDiv = document.getElementById("results");
 
         resultsDiv.innerHTML = ""; // clear old results
-        resultsDiv.classList.add("hidden"); // hide results at start
-        loader.classList.remove("hidden"); // show loader
+
+        // Step 1: hide banner, show loader
+        banner.classList.add("hidden");
+        resultsDiv.classList.add("hidden");
+        loader.classList.remove("hidden");
 
         setTimeout(() => {
+          // Generate cards
           for (let i = 0; i < amount; i++) {
             let card = pullCard();
             player.cards.push(card);
@@ -96,18 +105,20 @@
             logAction("pull", { card });
 
             let cardEl = document.createElement("div");
-            cardEl.classList.add("card", card.rarity);
+            cardEl.classList.add("card-result", "card", card.rarity);
             cardEl.innerHTML = `
         <img src="${card.img}" alt="${card.name}">
-        <p><strong>${card.name}</strong></p>
-        <p>BP: ${card.power}</p>
-        <p>Rarity: ${card.rarity}</p>
+        <div>${card.rarity}</div>
+        <div>BP: ${card.power}</div>
+        
       `;
             resultsDiv.appendChild(cardEl);
           }
           updateCurrency();
-          loader.classList.add("hidden"); // hide loader
-          resultsDiv.classList.remove("hidden"); // show results
+
+          // Step 2: hide loader, show results
+          loader.classList.add("hidden");
+          resultsDiv.classList.remove("hidden");
         }, 2000); // 2s suspense
       }
 
