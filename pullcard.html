@@ -114,6 +114,12 @@
 
         resultsDiv.innerHTML = "";
 
+        // 🔒 disable summon buttons while animating
+        const pullOneBtn = document.getElementById("pullOne");
+        const pullTenBtn = document.getElementById("pullTen");
+        pullOneBtn.disabled = true;
+        pullTenBtn.disabled = true;
+
         // Step 1: hide banner, show loader
         banner.classList.add("hidden");
         resultsDiv.classList.add("hidden");
@@ -129,19 +135,23 @@
             let cardEl = document.createElement("div");
             cardEl.classList.add("card-result", "card", card.rarity);
             cardEl.innerHTML = `
-              <img src="${card.img}" alt="${card.name}">
-              <div>${card.rarity}</div>
-              <div>BP: ${card.power}</div>
-            `;
+        <img src="${card.img}" alt="${card.name}">
+        <div>${card.rarity}</div>
+        <div>BP: ${card.power}</div>
+      `;
             resultsDiv.appendChild(cardEl);
           }
 
           updateCurrency();
 
-          // Step 2: hide loader, show results, 5000 = 5 seconds
+          // Step 2: hide loader, show results
           loader.classList.add("hidden");
           resultsDiv.classList.remove("hidden");
-        }, 4000);
+
+          // 🔓 re-enable summon buttons now that results are displayed
+          pullOneBtn.disabled = false;
+          pullTenBtn.disabled = false;
+        }, 5000);
 
         // --- count pulls ---
         if (amount === 1) {

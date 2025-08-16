@@ -50,17 +50,14 @@
         gap: 10px;
         width: 100%;
       }
-
-      #results {
-        font-style: italic;
-      }
     </style>
   </head>
   <body>
     <div class="container">
-      <!-- Left: Enemy Image -->
+      <!-- Enemy / Animation / Result Image (all in one slot) -->
       <img
-        src="https://alice-ji.github.io/Gacha/assets/enemy.png"
+        id="battleImage"
+        src="https://alice-ji.github.io/Gacha/assets/enemy1.png"
         alt="Enemy"
         class="enemy-img"
       />
@@ -76,8 +73,6 @@
         </div>
 
         <button id="battleBtn" class="btn">Battle!</button>
-        <div id="results"></div>
-
         <a href="index.html" class="btn back-btn">Menu</a>
       </div>
     </div>
@@ -91,36 +86,58 @@
         level: 1,
       };
 
-      // recalculate power from owned cards
+      // recalc power
       player.power = player.cards.reduce((sum, c) => sum + c.power, 0);
+
+      const battleImage = document.getElementById("battleImage");
 
       function updateDisplay() {
         document.getElementById("level").textContent = player.level;
         document.getElementById("enemyPower").textContent = player.level * 15;
         document.getElementById("playerPower").textContent = player.power;
         document.getElementById("currency").textContent = player.currency;
+
+        // 👉 loop enemy images by level
+        const enemyIndex = ((player.level - 1) % 4) + 1; // gives 1..4
+        battleImage.src = `https://alice-ji.github.io/Gacha/assets/enemy${enemyIndex}.png`;
+
         localStorage.setItem("player", JSON.stringify(player));
       }
 
       document.getElementById("battleBtn").addEventListener("click", () => {
-        let result = startBattle(player);
-        if (result.win) {
-          player.currency += 15;
-          player.level++;
-        }
-        player.power = player.cards.reduce((sum, c) => sum + c.power, 0);
-        localStorage.setItem("player", JSON.stringify(player));
+        const battleBtn = document.getElementById("battleBtn");
+        battleBtn.disabled = true; // 🚫 prevent spamming
 
-        document.getElementById("results").textContent = result.win
-          ? `You won! +𖢻15`
-          : `You lost!`;
-        updateDisplay();
-        logAction("battle", result);
+        let result = startBattle(player);
+
+        // show animation first
+        battleImage.src =
+          "https://alice-ji.github.io/Gacha/assets/battleanimation.gif";
+
+        setTimeout(() => {
+          if (result.win) {
+            player.currency += 15;
+            player.level++;
+            battleImage.src =
+              "https://alice-ji.github.io/Gacha/assets/victory.png";
+          } else {
+            battleImage.src =
+              "https://alice-ji.github.io/Gacha/assets/failure.png";
+          }
+
+          player.power = player.cards.reduce((sum, c) => sum + c.power, 0);
+          localStorage.setItem("player", JSON.stringify(player));
+          logAction("battle", result);
+
+          // 👉 delay updateDisplay until AFTER victory/failure shows
+          setTimeout(() => {
+            updateDisplay();
+            battleBtn.disabled = false; // ✅ re-enable once everything finishes
+          }, 4000); // victory/failure duration
+        }, 1800); // animation time
       });
 
       updateDisplay();
-
-      // Keep currency updated
       updateCurrency();
     </script>
   </body>
