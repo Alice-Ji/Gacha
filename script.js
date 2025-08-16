@@ -61,6 +61,7 @@ function sendSessionData() {
     playerId: playerIP,
     startTime: sessionStart,
     endTime: sessionEnd,
+    battlePower: player.power || 0,
     maxLevel: player.level || 0,
     collection: collectionStr,
     onePulls: player.onePulls || 0,
@@ -70,7 +71,7 @@ function sendSessionData() {
   };
 
   return fetch(
-    "https://script.google.com/macros/s/AKfycbzSV2hBtrlB6VaPZ2hGno4UfzoxIBuS54zG6A1lvEhuxQOiDU2Rgw6sU0ivhO7MtmVHKA/exec",
+    "https://script.google.com/macros/s/AKfycbxrKKSXl3-A37HwQaSiP45T740PgLh5YEM03mpRDCZBloKCztcAnai0o38u8Qe4Hb8qMA/exec",
     {
       method: "POST",
       body: JSON.stringify(payload),
