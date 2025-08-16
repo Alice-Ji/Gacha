@@ -72,6 +72,7 @@
           <p>Level: <span id="level">1</span></p>
           <p>Enemy Power: <span id="enemyPower">0</span></p>
           <p>Your Power: <span id="playerPower">0</span></p>
+          <p>𖢻 <span id="currency">0</span></p>
         </div>
 
         <button id="battleBtn" class="btn">Battle!</button>
@@ -85,7 +86,7 @@
     <script src="js/logger.js"></script>
     <script>
       let player = JSON.parse(localStorage.getItem("player")) || {
-        : 0 𖢻,
+        currency: 0,
         cards: [],
         level: 1,
       };
@@ -97,6 +98,7 @@
         document.getElementById("level").textContent = player.level;
         document.getElementById("enemyPower").textContent = player.level * 15;
         document.getElementById("playerPower").textContent = player.power;
+        document.getElementById("currency").textContent = player.currency;
         localStorage.setItem("player", JSON.stringify(player));
       }
 
@@ -110,13 +112,16 @@
         localStorage.setItem("player", JSON.stringify(player));
 
         document.getElementById("results").textContent = result.win
-          ? `You won! +15𖢻`
+          ? `You won! +𖢻15`
           : `You lost!`;
         updateDisplay();
         logAction("battle", result);
       });
 
       updateDisplay();
+
+      // Keep currency updated
+      updateCurrency();
     </script>
   </body>
 </html>
