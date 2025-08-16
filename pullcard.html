@@ -10,56 +10,55 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-
-      <!-- Banner / Loader / Results container -->
-      <div id="display-container" class="display-container">
-        <!-- Banner Image -->
-        <div id="banner" class="banner-container">
-          <img
-            src="https://alice-ji.github.io/Gacha/assets/normalbanner.png"
-            alt="Game Banner"
-            class="banner-img"
-          />
-        </div>
-
-        <!-- Summoning Circle Loader -->
-        <div id="loader" class="hidden">
-          <img
-            src="https://alice-ji.github.io/Gacha/assets/lightning-sphere-effect.gif"
-            alt="Summoning Effect"
-            class="summon-gif"
-          />
-        </div>
-        <style>
-          .hidden {
-            display: none;
-          }
-          .summon-gif {
-            width: 300px; /* adjust as needed */
-            height: auto;
-            display: block;
-            margin: 20px auto;
-          }
-        </style>
-
-        <!-- Results Grid -->
-        <div id="results" class="results-grid hidden"></div>
+    <!-- Banner / Loader / Results container -->
+    <div id="display-container" class="display-container">
+      <!-- Banner Image -->
+      <div id="banner" class="banner-container">
+        <img
+          src="https://alice-ji.github.io/Gacha/assets/normalbanner.png"
+          alt="Game Banner"
+          class="banner-img"
+        />
       </div>
 
-      <div class="button-row">
-        <div class="status-box">
-          <p>𖢻 <span id="currency">0</span></p>
-        </div>
-        <button id="pullOne" class="btn">Summon 1 (𖢻10)</button>
-        <button id="pullTen" class="btn">Summon 10 (𖢻100)</button>
-        <button id="viewBanner" class="btn">View Banner</button>
+      <!-- Summoning Circle Loader -->
+      <div id="loader" class="hidden">
+        <img
+          src="https://alice-ji.github.io/Gacha/assets/lightning-sphere-effect.gif"
+          alt="Summoning Effect"
+          class="summon-gif"
+        />
       </div>
+      <style>
+        .hidden {
+          display: none;
+        }
+        .summon-gif {
+          width: 300px;
+          height: auto;
+          display: block;
+          margin: 20px auto;
+        }
+      </style>
+
+      <!-- Results Grid -->
+      <div id="results" class="results-grid hidden"></div>
+    </div>
+
+    <div class="button-row">
+      <div class="status-box">
+        <p>𖢻 <span id="currency">0</span></p>
+      </div>
+      <button id="pullOne" class="btn">Summon 1 (𖢻10)</button>
+      <button id="pullTen" class="btn">Summon 10 (𖢻100)</button>
+      <button id="viewBanner" class="btn">View Banner</button>
     </div>
     <p id="message" class="message"></p>
 
-    <!-- ad currency button -->
+    <!-- add currency button -->
     <div class="menu">
-      <button id="addCurrency" class="btn">Add 𖢻100</button>
+      <button id="addCurrency" class="btn">Buy 𖢻100 (-$2 bonus pay)</button>
+      <p id="currencyLimitMsg" class="message"></p>
     </div>
 
     <div>
@@ -71,18 +70,39 @@
     <script src="js/gacha.js"></script>
     <script src="js/logger.js"></script>
     <script>
-      let player = JSON.parse(localStorage.getItem("player"));
+      let player = JSON.parse(localStorage.getItem("player")) || {
+        currency: 0,
+        cards: [],
+        onePulls: 0,
+        tenPulls: 0,
+      };
+
+      // Track how many times the player used "addCurrency"
+      let addCurrencyCount =
+        parseInt(localStorage.getItem("addCurrencyCount")) || 0;
+      const addCurrencyBtn = document.getElementById("addCurrency");
+      const limitMsg = document.getElementById("currencyLimitMsg");
 
       function updateCurrency() {
         document.getElementById("currency").textContent = player.currency;
         localStorage.setItem("player", JSON.stringify(player));
       }
 
+      function updateAddCurrencyUI() {
+        if (addCurrencyCount >= 5) {
+          addCurrencyBtn.disabled = true;
+          limitMsg.textContent = "You’ve reached the purchase limit.";
+        } else {
+          addCurrencyBtn.disabled = false;
+          limitMsg.textContent = `Uses left: ${5 - addCurrencyCount}`;
+        }
+      }
+
       function tryPull(amount) {
         let cost = amount * 10;
         if (player.currency < cost) {
           document.getElementById("message").textContent =
-            "Insufficient currency!";
+            "You don't have enough 𖢻";
           return;
         }
 
@@ -92,7 +112,7 @@
         let loader = document.getElementById("loader");
         let resultsDiv = document.getElementById("results");
 
-        resultsDiv.innerHTML = ""; // clear old results
+        resultsDiv.innerHTML = "";
 
         // Step 1: hide banner, show loader
         banner.classList.add("hidden");
@@ -106,50 +126,71 @@
             player.cards.push(card);
             player.currency -= 10;
             logAction("pull", { card });
-
             let cardEl = document.createElement("div");
             cardEl.classList.add("card-result", "card", card.rarity);
             cardEl.innerHTML = `
-        <img src="${card.img}" alt="${card.name}">
-        <div>${card.rarity}</div>
-        <div>BP: ${card.power}</div>
-        
-      `;
+              <img src="${card.img}" alt="${card.name}">
+              <div>${card.rarity}</div>
+              <div>BP: ${card.power}</div>
+            `;
             resultsDiv.appendChild(cardEl);
           }
+
           updateCurrency();
 
           // Step 2: hide loader, show results
           loader.classList.add("hidden");
           resultsDiv.classList.remove("hidden");
-        }, 2000); // 2s suspense
+        }, 2000);
+
+        // --- count pulls ---
+        if (amount === 1) {
+          player.onePulls = (player.onePulls || 0) + 1;
+        } else if (amount === 10) {
+          player.tenPulls = (player.tenPulls || 0) + 1;
+        }
+
+        updateCurrency(); // save after counter change
       }
 
-      // Button events
-      document.getElementById("pullOne").addEventListener("click", () => tryPull(1));
-      document.getElementById("pullTen").addEventListener("click", () => tryPull(10));
+      // Summon button events
+      document
+        .getElementById("pullOne")
+        .addEventListener("click", () => tryPull(1));
+      document
+        .getElementById("pullTen")
+        .addEventListener("click", () => tryPull(10));
 
-      // currency button event
-      document.getElementById("addCurrency").addEventListener("click", () => {
-      player.currency += 100;
-      logAction("add_currency", { amount: 100, newBalance: player.currency });
-      updateCurrency();
+      // add currency button event (limit 5 per session)
+      addCurrencyBtn.addEventListener("click", () => {
+        if (addCurrencyCount < 5) {
+          player.currency += 100;
+          addCurrencyCount++;
+          logAction("add_currency", {
+            amount: 100,
+            newBalance: player.currency,
+            timesUsed: addCurrencyCount,
+          });
+          localStorage.setItem("addCurrencyCount", addCurrencyCount);
+          updateCurrency();
+          updateAddCurrencyUI();
+        }
       });
 
       // view banner button event
       document.getElementById("viewBanner").addEventListener("click", () => {
-      let banner = document.getElementById("banner");
-      let loader = document.getElementById("loader");
-      let resultsDiv = document.getElementById("results");
+        let banner = document.getElementById("banner");
+        let loader = document.getElementById("loader");
+        let resultsDiv = document.getElementById("results");
 
-      // Show banner, hide everything else
-      banner.classList.remove("hidden");
-      loader.classList.add("hidden");
-      resultsDiv.classList.add("hidden");
-    });
+        banner.classList.remove("hidden");
+        loader.classList.add("hidden");
+        resultsDiv.classList.add("hidden");
+      });
 
-    // Keep currency updated
-    updateCurrency();
+      // Initial load
+      updateCurrency();
+      updateAddCurrencyUI();
     </script>
-    </div>
+  </body>
 </html>

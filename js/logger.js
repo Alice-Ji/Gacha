@@ -1,6 +1,6 @@
 // Replace this with your actual Google Apps Script web app URL
 const LOG_URL =
-  "https://script.google.com/macros/s/AKfycbxvFceXBHXo9-SS_tuaPT355GOdPpSw1-ey7lvu8YPKsBQREydleD4Ziri_g5OxNZIy5Q/exec";
+  "https://script.google.com/macros/s/AKfycbzSV2hBtrlB6VaPZ2hGno4UfzoxIBuS54zG6A1lvEhuxQOiDU2Rgw6sU0ivhO7MtmVHKA/exec";
 
 // Function to send player actions to your Google Sheet
 function logAction(action, details) {
