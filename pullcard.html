@@ -2,15 +2,28 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Battle of the Elements</title>
+    <title>Summon</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="https://alice-ji.github.io/Gacha/assets/favicon.png" type="image/png">
+    <link
+      rel="icon"
+      href="https://alice-ji.github.io/Gacha/assets/favicon.png"
+      type="image/png"
+    />
   </head>
   <body>
+    <div class="status-box">
+      <div>
+        Battle Power: <span id="power">0</span> &nbsp | &nbsp Level:<span
+          id="level"
+          >1</span
+        >
+      </div>
+    </div>
+
     <!-- Banner / Loader / Results container -->
     <div id="display-container" class="display-container">
       <!-- Banner Image -->
@@ -102,6 +115,22 @@
         }
       }
 
+      function updatePowerLevel() {
+        // calculate total battle power from cards
+        let totalPower = player.cards.reduce(
+          (sum, card) => sum + (card.power || 0),
+          0
+        );
+        player.power = totalPower;
+
+        // calculate level (you can keep it synced with battle, or invent a different rule)
+        let level = player.level || 1; // keep the same as stored in localStorage
+        document.getElementById("power").textContent = totalPower;
+        document.getElementById("level").textContent = level;
+
+        localStorage.setItem("player", JSON.stringify(player));
+      }
+
       function tryPull(amount) {
         if (pullInProgress) return; // 🔒 stop multiple pulls
         pullInProgress = true;
@@ -156,6 +185,7 @@
           }
 
           updateCurrency();
+          updatePowerLevel();
 
           loader.classList.add("hidden");
           resultsDiv.classList.remove("hidden");
@@ -173,6 +203,7 @@
         }
 
         updateCurrency();
+        updatePowerLevel();
       }
 
       // 🔒 Guarded event listeners — overwrite instead of stacking
@@ -201,6 +232,7 @@
       };
 
       // Initial load
+      updatePowerLevel();
       updateCurrency();
       updateAddCurrencyUI();
     </script>
