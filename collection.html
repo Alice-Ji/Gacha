@@ -8,7 +8,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="https://alice-ji.github.io/Gacha/assets/favicon.png" type="image/png">
+    <link
+      rel="icon"
+      href="https://alice-ji.github.io/Gacha/assets/favicon.png"
+      type="image/png"
+    />
     <style>
       .flex-break {
         flex-basis: 100%;
@@ -54,23 +58,23 @@
 
         let owned = counts[cardDef.name] || 0;
         let cardEl = document.createElement("div");
-        cardEl.className = "card-result";
+        cardEl.className = `card ${cardDef.rarity}`;
 
         if (owned > 0) {
           cardEl.innerHTML = `
-            <img src="${cardDef.img}" alt="${cardDef.name}" class="card-img">
-            <div class="rarity">${cardDef.rarity}</div>
-            <div>BP: ${cardDef.power}</div>
-            ${owned > 1 ? `<div class="count-badge">x${owned}</div>` : ""}
-          `;
+    <img src="${cardDef.img}" alt="${cardDef.name}" class="card-img">
+    <div class="rarity">${cardDef.rarity}</div>
+    <div>BP: ${cardDef.power}</div>
+    ${owned > 1 ? `<div class="count-badge">x${owned}</div>` : ""}
+  `;
         } else {
           cardEl.classList.add("locked");
           cardEl.innerHTML = `
-            <div class="locked-overlay">
-              <img src="${cardDef.img}" alt="Locked" class="card-img locked-img">
-            </div>
-            <div class="name">???</div>
-          `;
+    <div class="locked-overlay">
+      <img src="${cardDef.img}" alt="Locked" class="card-img locked-img">
+    </div>
+    <div class="name">???</div>
+  `;
         }
 
         collectionDiv.appendChild(cardEl);
