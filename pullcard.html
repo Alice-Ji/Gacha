@@ -83,6 +83,9 @@
       const addCurrencyBtn = document.getElementById("addCurrency");
       const limitMsg = document.getElementById("currencyLimitMsg");
 
+      let currentPullTimeout = null; // 🔑 global timeout ref
+      let pullInProgress = false; // 🔑 guard flag
+
       function updateCurrency() {
         document.getElementById("currency").textContent = player.currency;
         localStorage.setItem("player", JSON.stringify(player));
@@ -99,13 +102,16 @@
       }
 
       function tryPull(amount) {
+        if (pullInProgress) return; // 🔒 stop multiple pulls
+        pullInProgress = true;
+
         let cost = amount * 10;
         if (player.currency < cost) {
           document.getElementById("message").textContent =
             "You don't have enough 𖢻";
+          pullInProgress = false;
           return;
         }
-
         document.getElementById("message").textContent = "";
 
         let banner = document.getElementById("banner");
@@ -114,24 +120,30 @@
 
         resultsDiv.innerHTML = "";
 
-        // 🔒 disable summon buttons while animating
         const pullOneBtn = document.getElementById("pullOne");
         const pullTenBtn = document.getElementById("pullTen");
         pullOneBtn.disabled = true;
         pullTenBtn.disabled = true;
 
-        // Step 1: hide banner, show loader
         banner.classList.add("hidden");
         resultsDiv.classList.add("hidden");
+
+        // Reset the summon animation GIF with cache-busting
+        const summonGif = loader.querySelector("img");
+        summonGif.src = summonGif.src.split("?")[0] + "?t=" + Date.now();
+
         loader.classList.remove("hidden");
 
-        setTimeout(() => {
-          // Generate cards
+        // Clear any lingering timeout
+        if (currentPullTimeout) clearTimeout(currentPullTimeout);
+
+        currentPullTimeout = setTimeout(() => {
           for (let i = 0; i < amount; i++) {
             let card = pullCard();
             player.cards.push(card);
             player.currency -= 10;
             logAction("pull", { card });
+
             let cardEl = document.createElement("div");
             cardEl.classList.add("card-result", "card", card.rarity);
             cardEl.innerHTML = `
@@ -144,35 +156,29 @@
 
           updateCurrency();
 
-          // Step 2: hide loader, show results
           loader.classList.add("hidden");
           resultsDiv.classList.remove("hidden");
 
-          // 🔓 re-enable summon buttons now that results are displayed
           pullOneBtn.disabled = false;
           pullTenBtn.disabled = false;
+
+          pullInProgress = false; // 🔓 only here, after results show
         }, 5000);
 
-        // --- count pulls ---
         if (amount === 1) {
           player.onePulls = (player.onePulls || 0) + 1;
         } else if (amount === 10) {
           player.tenPulls = (player.tenPulls || 0) + 1;
         }
 
-        updateCurrency(); // save after counter change
+        updateCurrency();
       }
 
-      // Summon button events
-      document
-        .getElementById("pullOne")
-        .addEventListener("click", () => tryPull(1));
-      document
-        .getElementById("pullTen")
-        .addEventListener("click", () => tryPull(10));
+      // 🔒 Guarded event listeners — overwrite instead of stacking
+      document.getElementById("pullOne").onclick = () => tryPull(1);
+      document.getElementById("pullTen").onclick = () => tryPull(10);
 
-      // add currency button event (limit 5 per session)
-      addCurrencyBtn.addEventListener("click", () => {
+      addCurrencyBtn.onclick = () => {
         if (addCurrencyCount < 5) {
           player.currency += 100;
           addCurrencyCount++;
@@ -185,18 +191,13 @@
           updateCurrency();
           updateAddCurrencyUI();
         }
-      });
+      };
 
-      // view banner button event
-      document.getElementById("viewBanner").addEventListener("click", () => {
-        let banner = document.getElementById("banner");
-        let loader = document.getElementById("loader");
-        let resultsDiv = document.getElementById("results");
-
-        banner.classList.remove("hidden");
-        loader.classList.add("hidden");
-        resultsDiv.classList.add("hidden");
-      });
+      document.getElementById("viewBanner").onclick = () => {
+        document.getElementById("banner").classList.remove("hidden");
+        document.getElementById("loader").classList.add("hidden");
+        document.getElementById("results").classList.add("hidden");
+      };
 
       // Initial load
       updateCurrency();
