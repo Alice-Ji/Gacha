@@ -1,138 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
+    <meta charset="UTF-8" />
+    <title>Battle of the Elements</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap"
       rel="stylesheet"
     />
-    <meta charset="UTF-8" />
-    <title>Alice Ji – About Me</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="https://alice-ji.github.io/Gacha/assets/favicon.png" type="image/png">
+    <style>
+      body {
+        font-family: "Cinzel Decorative", cursive;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #111;
+        color: #111;
+      }
+
+      .container {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        max-width: 1000px;
+      }
+
+      .cover-img {
+        max-width: 400px;
+        border-radius: 10px;
+      }
+
+      .right-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .status-box p {
+        margin: 5px 0;
+      }
+
+      .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .btn {
+        background: #4b0082;
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        transition: background 0.3s ease;
+      }
+
+      .btn:hover {
+        background: #6a0dad;
+      }
+
+      .back-btn {
+        background: #222;
+      }
+
+      .back-btn:hover {
+        background: #444;
+      }
+    </style>
   </head>
   <body>
-    <nav class="navbar">
-      <a href="/" class="nav-link active">About</a>
-      <a href="/cv.html" class="nav-link">CV</a>
-      <a href="/research.html" class="nav-link">Research</a>
-      <a href="/project.html" class="nav-link">Projects</a>
-      <a href="/media.html" class="nav-link">Media</a>
-      <button id="dark-toggle" class="dark-toggle">🌒 Dark Mode</button>
-    </nav>
+    <div class="container">
+      <!-- Left side image -->
+      <img
+        src="https://alice-ji.github.io/Gacha/assets/cover.png"
+        alt="Game Cover"
+        class="cover-img"
+      />
 
-    <main>
-      <div class="profile-img-wrap">
-        <img
-          src="https://alice-ji.github.io/assets/avatar.jpg"
-          alt="Alice Ji"
-          class="profile-img"
-        />
-      </div>
-      <h1>Alice Ji</h1>
-      <h2>Behavioral Data Scientist, PhD Student in Media & Communication</h2>
-
-      <section class="about-section">
-        <p>Welcome to my page.</p>
-        <p>
-          I am Alice, a PhD student at the Institute of Communications Research,
-          University of Illinois at Urbana-Champaign.
-        </p>
-        <p>
-          My research explores the psychology of persuasion in digital media—how
-          people attend to, engage with, and interpret persuasive messages
-          across contexts including advertising, influencer marketing, health
-          communication, and misinformation.
-        </p>
-        <p>
-          I design and build <b>interactive digital environments</b>—from
-          simulated social media feeds and shoppable streaming ads to
-          gacha-style games—to study real user behavior. My methods combine
-          <b
-            >biometrics, experimental design, behavioral logging, and
-            qualitative interviews</b
-          >
-          to capture how attention, emotion, and decision-making unfold in
-          digital spaces.
-        </p>
-        <p>
-          My work bridges academia and industry: contributing to theories of
-          persuasion and media effects while generating insights relevant to
-          product design, advertising strategy, and consumer analytics.
-        </p>
-        <p>At the center of both tracks is a single theme:</p>
-        <blockquote>
-          <b
-            >Understanding How Digital Environments Mediate Persuasion and
-            Consumer Behavior.</b
-          >
-        </blockquote>
-      </section>
-
-      <section class="contact-section">
-        <a href="mailto:rji3@illinois.edu" class="contact-email"
-          >rji3@illinois.edu</a
-        >
-        <div class="social-links">
-          <a
-            href="https://www.linkedin.com/in/alice-ji-8a4b2a161/"
-            target="_blank"
-          >
-            <img
-              src="https://alice-ji.github.io/assets/LinkedIn.png"
-              alt="LinkedIn"
-              title="LinkedIn"
-            />
-          </a>
-          <a
-            href="https://scholar.google.com/citations?hl=en&user=CVlgqCAAAAAJ"
-            target="_blank"
-          >
-            <img
-              src="https://alice-ji.github.io/assets/GoogleScholarLogo.png"
-              alt="Google Scholar"
-              title="Google Scholar"
-            />
-          </a>
-          <a href="https://orcid.org/0009-0009-3730-8272" target="_blank">
-            <img
-              src="https://alice-ji.github.io/assets/ORCID.png"
-              alt="ORCID"
-              title="ORCID"
-            />
-          </a>
-          <a href="https://github.com/Alice-Ji" target="_blank">
-            <img
-              src="https://alice-ji.github.io/assets/github.png"
-              alt="Github"
-              title="Github"
-            />
-          </a>
-          <a href="https://madlabresearch.web.illinois.edu/" target="_blank">
-            <img
-              src="https://alice-ji.github.io/assets/madlab.png"
-              alt="MadLab"
-              title="MadLab"
-            />
-          </a>
+      <!-- Right side panel -->
+      <div class="right-panel">
+        <div class="status-box">
+          <p>𖢻 <span id="currency">0</span></p>
+          <p>Battle Power: <span id="power">0</span></p>
+          <p>Level: <span id="level">1</span></p>
         </div>
-      </section>
-    </main>
 
-    <footer>&copy; 2025 Alice Ji</footer>
-    <script>
-      const btn = document.getElementById("dark-toggle");
-      // On load, restore state
-      if (localStorage.getItem("dark-mode") === "true") {
-        document.body.classList.add("dark-mode");
-        btn.textContent = "☀️ Light Mode";
-      }
-      // Toggle and save state
-      btn.onclick = () => {
-        document.body.classList.toggle("dark-mode");
-        const enabled = document.body.classList.contains("dark-mode");
-        btn.textContent = enabled ? "☀️ Light Mode" : "🌒 Dark Mode";
-        localStorage.setItem("dark-mode", enabled);
-      };
-    </script>
-  </body>
+        <div class="menu">
+          <a href="pullcard.html" class="btn">Summon</a>
+          <a href="battle.html" class="btn">Battle</a>
+          <a href="collection.html" class="btn">Collection</a>
+          <button id="resetBtn" class="btn back-btn">Reset Game</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/cards.js"></script>
+    <script src="js/gacha.js"></script>
+    <script src="js/battle.js"></script>
+    <script src="js/logger.js"></script>
+    <script src="script.js"></script>
 </html>
