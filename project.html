@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <title>Alice Ji – Projects</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .project-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        align-items: start;
+      }
+      .project-grid img,
+      .project-grid iframe {
+        width: 100%;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+      .project-desc h2 {
+        margin-top: 0;
+      }
+      .project-desc p {
+        margin: 0.5rem 0 1rem;
+      }
+      .project-desc a {
+        display: inline-block;
+        margin-top: 0.5rem;
+        font-weight: bold;
+        color: var(--link-color, #0056b3);
+      }
+      .project-desc {
+        text-align: left;
+        font-size: 1.1rem; /* adjust as you like */
+        line-height: 1.6; /* improves readability */
+      }
+      .pub-link {
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+      .pub-link a {
+        display: inline-block;
+        background: #2453aa;
+        color: #fff;
+        padding: 6px 16px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 500;
+        text-align: center;
+        transition: background 0.2s;
+        width: 100%;
+        min-width: 40px;
+      }
+      .pub-link a:hover {
+        background: #193366;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="/" class="nav-link">About</a>
+      <a href="/cv.html" class="nav-link">CV</a>
+      <a href="/research.html" class="nav-link">Research</a>
+      <a href="/project.html" class="nav-link active">Projects</a>
+      <a href="/media.html" class="nav-link">Media</a>
+      <button id="dark-toggle" class="dark-toggle">🌒 Dark Mode</button>
+    </nav>
+
+    <main>
+      <h1>Projects</h1>
+
+      <br />
+
+      <!-- Project 1: Affordance Study -->
+      <section class="project-grid">
+        <div>
+          <img
+            src="https://alice-ji.github.io/assets/affordance-demo.png"
+            alt="Affordance Study Demo"
+          />
+        </div>
+        <div class="project-desc">
+          <h3>Social Media Affordance Study</h3>
+          <p>
+            Custom-built fake Instagram feed to test how enabling/disabling the
+            comment function affects <b>parasocial relationships</b> and
+            <b>user engagement</b>. Participants’ interactions and comments were
+            logged and analyzed (length, frequency, sentiment).
+          </p>
+          <div class="pub-link">
+            <a
+              href="https://github.com/Alice-Ji/affordancePSIPSR"
+              target="_blank"
+              >View on GitHub</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- Project 2: Shoppable Ads -->
+      <section class="project-grid">
+        <div>
+          <img
+            src="https://alice-ji.github.io/assets/shoppable-demo.png"
+            alt="Shoppable Ads Demo"
+          />
+        </div>
+        <div class="project-desc">
+          <h3>Shoppable Advertising Study</h3>
+          <p>
+            Interactive <b>streaming TV</b> and <b>social media</b> ad
+            prototypes built in HTML/JS. Compared shoppable vs. non-shoppable ad
+            formats using <b>interaction logs and surveys</b> to capture
+            attention and purchase intent across lean-forward vs. lean-back
+            contexts.
+          </p>
+          <div class="pub-link">
+            <a href="https://github.com/Alice-Ji/TVShoppable" target="_blank"
+              >View TV version on GitHub</a
+            >
+          </div>
+          <div class="pub-link">
+            <a href="https://github.com/Alice-Ji/SMShoppable" target="_blank"
+              >View Social Media version on GitHub</a
+            >
+          </div>
+          <p>
+            <i>Manuscript under review at Journal of Advertising Research</i>
+          </p>
+        </div>
+      </section>
+
+      <!-- Project 3: Gacha Game -->
+      <section class="project-grid">
+        <div>
+          <img
+            src="https://alice-ji.github.io/assets/gacha-demo.png"
+            alt="Gacha Game Demo"
+          />
+        </div>
+        <div class="project-desc">
+          <h3>Gacha Behavioral Economies</h3>
+          <p>
+            Fully functional <b>gacha battle game</b> coded in HTML/JS,
+            including summon and battle mechanics. Player behavior and spending
+            patterns were tracked via Apps Script to analyze how
+            <b>randomized rewards</b> shape engagement and progression.
+          </p>
+          <div class="pub-link">
+            <a href="https://github.com/Alice-Ji/Gacha" target="_blank"
+              >View on GitHub</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-section">
+        <a href="mailto:rji3@illinois.edu" class="contact-email"
+          >rji3@illinois.edu</a
+        >
+        <div class="social-links">
+          <a
+            href="https://www.linkedin.com/in/alice-ji-8a4b2a161/"
+            target="_blank"
+          >
+            <img
+              src="https://alice-ji.github.io/assets/LinkedIn.png"
+              alt="LinkedIn"
+              title="LinkedIn"
+            />
+          </a>
+          <a
+            href="https://scholar.google.com/citations?hl=en&user=CVlgqCAAAAAJ"
+            target="_blank"
+          >
+            <img
+              src="https://alice-ji.github.io/assets/GoogleScholarLogo.png"
+              alt="Google Scholar"
+              title="Google Scholar"
+            />
+          </a>
+          <a href="https://orcid.org/0009-0009-3730-8272" target="_blank">
+            <img
+              src="https://alice-ji.github.io/assets/ORCID.png"
+              alt="ORCID"
+              title="ORCID"
+            />
+          </a>
+          <a href="https://github.com/Alice-Ji" target="_blank">
+            <img
+              src="https://alice-ji.github.io/assets/github.png"
+              alt="Github"
+              title="Github"
+            />
+          </a>
+          <a href="https://madlabresearch.web.illinois.edu/" target="_blank">
+            <img
+              src="https://alice-ji.github.io/assets/madlab.png"
+              alt="MadLab"
+              title="MadLab"
+            />
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>&copy; 2025 Alice Ji</footer>
+
+    <script>
+      const btn = document.getElementById("dark-toggle");
+      if (localStorage.getItem("dark-mode") === "true") {
+        document.body.classList.add("dark-mode");
+        btn.textContent = "☀️ Light Mode";
+      }
+      btn.onclick = () => {
+        document.body.classList.toggle("dark-mode");
+        const enabled = document.body.classList.contains("dark-mode");
+        btn.textContent = enabled ? "☀️ Light Mode" : "🌒 Dark Mode";
+        localStorage.setItem("dark-mode", enabled);
+      };
+    </script>
+  </body>
+</html>
