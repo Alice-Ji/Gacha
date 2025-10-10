@@ -123,7 +123,7 @@
         );
         player.power = totalPower;
 
-        // calculate level (you can keep it synced with battle, or invent a different rule)
+        // calculate level (keep it synced with battle, or invent a different rule)
         let level = player.level || 1; // keep the same as stored in localStorage
         document.getElementById("power").textContent = totalPower;
         document.getElementById("level").textContent = level;
@@ -177,10 +177,12 @@
             let cardEl = document.createElement("div");
             cardEl.classList.add("card-result", "card", card.rarity);
             cardEl.innerHTML = `
-        <img src="${card.img}" alt="${card.name}">
-        <div>${card.rarity}</div>
-        <div>BP: ${card.power}</div>
-      `;
+            <div class="name">${card.name}</div>
+            <img src="${card.img}" alt="${card.name}">
+            <div>${card.rarity}</div>
+            <div>BP: ${card.power}</div>
+            `;
+
             resultsDiv.appendChild(cardEl);
           }
 
