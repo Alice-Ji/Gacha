@@ -248,7 +248,7 @@ const cards = [
 
 // ======== Pull odds  ========
 const rarityOdds = {
-  common: 0.7,
-  rare: 0.25,
-  legendary: 0.05,
+  common: 0.84,
+  rare: 0.15,
+  legendary: 0.01,
 };
