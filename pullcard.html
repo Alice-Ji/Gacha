@@ -80,6 +80,21 @@
       <a href="index.html" class="btn back-btn">Menu</a>
     </div>
 
+    <!-- Purchase Confirmation Modal -->
+    <div id="confirmModal" class="modal hidden">
+      <div class="modal-content">
+        <p>
+          Confirming purchase:<br />$2 will be deducted from your $X study bonus
+          in exchange for 𖢻100 in-game currency. <br />(This action cannot be
+          undone)
+        </p>
+        <div class="modal-buttons">
+          <button id="confirmYes" class="btn">Confirm</button>
+          <button id="confirmNo" class="btn back-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
     <script src="js/cards.js"></script>
     <script src="js/gacha.js"></script>
     <script src="js/logger.js"></script>
@@ -213,6 +228,13 @@
       document.getElementById("pullTen").onclick = () => tryPull(10);
 
       addCurrencyBtn.onclick = () => {
+        if (addCurrencyCount >= 5) return;
+        // show confirmation modal
+        document.getElementById("confirmModal").classList.remove("hidden");
+      };
+
+      // handle confirm / cancel
+      document.getElementById("confirmYes").onclick = () => {
         if (addCurrencyCount < 5) {
           player.currency += 100;
           addCurrencyCount++;
@@ -225,6 +247,11 @@
           updateCurrency();
           updateAddCurrencyUI();
         }
+        document.getElementById("confirmModal").classList.add("hidden");
+      };
+
+      document.getElementById("confirmNo").onclick = () => {
+        document.getElementById("confirmModal").classList.add("hidden");
       };
 
       document.getElementById("viewBanner").onclick = () => {
