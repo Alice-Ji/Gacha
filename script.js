@@ -41,6 +41,16 @@ function updateIndexStats() {
   document.getElementById("power").textContent = player.power;
   document.getElementById("level").textContent = player.level;
   localStorage.setItem("player", JSON.stringify(player));
+
+  // Log update
+  logAction(
+    "update_stats",
+    JSON.stringify({
+      currency: player.currency,
+      power: player.power,
+      level: player.level,
+    })
+  );
 }
 updateIndexStats();
 
@@ -50,6 +60,7 @@ function sendSessionData() {
   let sessionEnd = new Date().toISOString();
   let addCurrencyCount = localStorage.getItem("addCurrencyCount") || 0;
   let playerIP = localStorage.getItem("playerIP") || "unknown";
+  let participantId = localStorage.getItem("participant_id") || playerIP;
 
   let counts = {};
   player.cards.forEach((c) => {
@@ -58,7 +69,7 @@ function sendSessionData() {
   let collectionStr = JSON.stringify(counts);
 
   let payload = {
-    playerId: playerIP,
+    playerId: participantId,
     startTime: sessionStart,
     endTime: sessionEnd,
     battlePower: player.power || 0,
@@ -84,13 +95,17 @@ function sendSessionData() {
 
 // --- Reset button ---
 document.getElementById("resetBtn").addEventListener("click", () => {
-  if (confirm("Are you sure you want to restart the game?")) {
+  const RESET_PASSWORD = "alchemy123"; // same password from earlier
+  const input = prompt("Enter password to reset game:");
+
+  if (input === RESET_PASSWORD) {
+    logAction("reset_game", "Game reset by admin");
+
     sendSessionData().then(() => {
-      localStorage.removeItem("player");
-      localStorage.removeItem("addCurrencyCount");
-      localStorage.removeItem("sessionStart");
-      localStorage.removeItem("playerIP");
+      localStorage.clear();
       location.reload();
     });
+  } else if (input !== null) {
+    alert("Incorrect password. Reset canceled.");
   }
 });

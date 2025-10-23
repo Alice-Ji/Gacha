@@ -147,7 +147,7 @@
       }
 
       function tryPull(amount) {
-        if (pullInProgress) return; // 🔒 stop multiple pulls
+        if (pullInProgress) return; // stop multiple pulls
         pullInProgress = true;
 
         let cost = amount * 10;
@@ -183,34 +183,43 @@
         if (currentPullTimeout) clearTimeout(currentPullTimeout);
 
         currentPullTimeout = setTimeout(() => {
+          const results = [];
+
           for (let i = 0; i < amount; i++) {
-            let card = pullCard();
+            const card = pullCard();
             player.cards.push(card);
             player.currency -= 10;
-            logAction("pull", { card });
+            results.push({
+              name: card.name,
+              rarity: card.rarity,
+              power: card.power,
+              img: card.img,
+            });
 
-            let cardEl = document.createElement("div");
+            // DOM card display
+            const cardEl = document.createElement("div");
             cardEl.classList.add("card-result", "card", card.rarity);
             cardEl.innerHTML = `
-            <div class="name">${card.name}</div>
-            <img src="${card.img}" alt="${card.name}">
-            <div>${card.rarity}</div>
-            <div>BP: ${card.power}</div>
-            `;
-
+      <div class="name">${card.name}</div>
+      <img src="${card.img}" alt="${card.name}">
+      <div>${card.rarity}</div>
+      <div>BP: ${card.power}</div>
+    `;
             resultsDiv.appendChild(cardEl);
           }
 
           updateCurrency();
           updatePowerLevel();
 
+          // One log entry per summon event
+          const actionType = amount === 1 ? "1_pull" : "10_pull";
+          logAction(actionType, { cards: results });
+
           loader.classList.add("hidden");
           resultsDiv.classList.remove("hidden");
-
           pullOneBtn.disabled = false;
           pullTenBtn.disabled = false;
-
-          pullInProgress = false; // 🔓 only here, after results show
+          pullInProgress = false;
         }, 5000);
 
         if (amount === 1) {
@@ -223,7 +232,7 @@
         updatePowerLevel();
       }
 
-      // 🔒 Guarded event listeners — overwrite instead of stacking
+      // Guarded event listeners — overwrite instead of stacking
       document.getElementById("pullOne").onclick = () => tryPull(1);
       document.getElementById("pullTen").onclick = () => tryPull(10);
 
@@ -238,14 +247,15 @@
         if (addCurrencyCount < 5) {
           player.currency += 100;
           addCurrencyCount++;
+          localStorage.setItem("addCurrencyCount", addCurrencyCount);
+          updateCurrency();
+          updateAddCurrencyUI();
+          // log player currency and add currency count
           logAction("add_currency", {
             amount: 100,
             newBalance: player.currency,
             timesUsed: addCurrencyCount,
           });
-          localStorage.setItem("addCurrencyCount", addCurrencyCount);
-          updateCurrency();
-          updateAddCurrencyUI();
         }
         document.getElementById("confirmModal").classList.add("hidden");
       };

@@ -8,7 +8,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="https://alice-ji.github.io/Gacha/assets/favicon.png" type="image/png">
+    <link
+      rel="icon"
+      href="https://alice-ji.github.io/Gacha/assets/favicon.png"
+      type="image/png"
+    />
     <style>
       body {
         font-family: "Cinzel Decorative", cursive;
@@ -72,6 +76,63 @@
       .back-btn:hover {
         background: #444;
       }
+
+      /* ID Modal overlay */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+      }
+      .hidden {
+        display: none !important;
+      }
+
+      /* ID Modal content */
+      .modal-box {
+        background: #222;
+        color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        width: 300px;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      }
+
+      .modal-box h2 {
+        font-family: "Cinzel Decorative", cursive;
+        margin-bottom: 15px;
+      }
+
+      .modal-box input {
+        width: 80%;
+        padding: 8px;
+        border-radius: 5px;
+        border: none;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .modal-box button {
+        background: #4b0082;
+        color: #fff;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s ease;
+      }
+
+      .modal-box button:hover {
+        background: #6a0dad;
+      }
     </style>
   </head>
   <body>
@@ -100,16 +161,133 @@
       </div>
     </div>
 
+    <!-- Participant ID Modal -->
+    <div id="idModal" class="modal-overlay hidden">
+      <div class="modal-box">
+        <h2>Enter Participant Number</h2>
+        <input type="text" id="participantInput" placeholder="e.g., P001" />
+        <button id="startBtn">Start Game</button>
+      </div>
+    </div>
+
+    <script>
+      const modal = document.getElementById("idModal");
+      const startBtn = document.getElementById("startBtn");
+      const input = document.getElementById("participantInput");
+      const currencyDisplay = document.getElementById("currency");
+
+      // Display participant ID if it exists
+      function showParticipantId() {
+        let pid = localStorage.getItem("participant_id");
+        if (pid) {
+          // Add an element to show it under the status box if not already there
+          let existing = document.getElementById("participantDisplay");
+          if (!existing) {
+            const statusBox = document.querySelector(".status-box");
+            const p = document.createElement("p");
+            p.id = "participantDisplay";
+            p.textContent = "Participant: " + pid;
+            statusBox.appendChild(p);
+          } else {
+            existing.textContent = "Participant: " + pid;
+          }
+        }
+      }
+
+      // Check if participant ID already exists
+      window.addEventListener("DOMContentLoaded", () => {
+        const idModal = document.getElementById("idModal");
+        const startBtn = document.getElementById("startBtn");
+        const input = document.getElementById("participantInput");
+
+        // Display participant ID if it exists
+        function showParticipantId() {
+          const pid = localStorage.getItem("participant_id");
+          if (pid) {
+            let existing = document.getElementById("participantDisplay");
+            if (!existing) {
+              const statusBox = document.querySelector(".status-box");
+              const p = document.createElement("p");
+              p.id = "participantDisplay";
+              p.textContent = "Participant: " + pid;
+              statusBox.appendChild(p);
+            } else {
+              existing.textContent = "Participant: " + pid;
+            }
+          }
+        }
+
+        // check localStorage
+        const storedId = localStorage.getItem("participant_id");
+        if (!storedId) {
+          idModal.classList.remove("hidden");
+          idModal.style.display = "flex"; // ensure it's visible
+        } else {
+          idModal.classList.add("hidden");
+          idModal.style.display = "none";
+          showParticipantId();
+        }
+
+        // start button handler
+        startBtn.addEventListener("click", () => {
+          const pid = input.value.trim();
+          if (pid) {
+            localStorage.setItem("participant_id", pid);
+            idModal.classList.add("hidden");
+            idModal.style.display = "none";
+            showParticipantId();
+          } else {
+            alert("Please enter a valid participant number.");
+          }
+        });
+      });
+
+      // Handle "Start Game" button
+      startBtn.addEventListener("click", () => {
+        const pid = input.value.trim();
+        if (pid) {
+          localStorage.setItem("participant_id", pid);
+          modal.style.display = "none";
+          showParticipantId();
+        } else {
+          alert("Please enter a valid participant number.");
+        }
+      });
+    </script>
+
+    <script>
+      // Password for reset game
+      const RESET_PASSWORD = "economics"; // password
+
+      const resetBtn = document.getElementById("resetBtn");
+
+      resetBtn.addEventListener("click", () => {
+        const userInput = prompt("Enter password to reset game:");
+        if (userInput === RESET_PASSWORD) {
+          // Clear participant ID and any saved game data
+          localStorage.clear();
+          alert("Game has been reset. Reloading...");
+          window.location.reload();
+        } else if (userInput === null) {
+          // user pressed cancel → do nothing
+          return;
+        } else {
+          alert("Incorrect password. Reset canceled.");
+        }
+      });
+    </script>
+
+    <script src="script.js"></script>
     <script src="js/cards.js"></script>
     <script src="js/gacha.js"></script>
     <script src="js/battle.js"></script>
     <script src="js/logger.js"></script>
-    <script src="script.js"></script>
 
     <footer
-    style="font-size: 10px; color: gray; text-align: center; margin-top: 20px"
-  >
-    © 2025 Alice Ji <br />
-    Demo only – not licensed for reuse
-  </footer>
+      style="font-size: 10px; color: gray; text-align: center; margin-top: 20px"
+    >
+      © 2025 Alice Ji <br />
+      Demo only – not licensed for reuse
+    </footer>
+  </body>
 </html>

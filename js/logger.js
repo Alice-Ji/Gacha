@@ -1,22 +1,47 @@
-// Replace this with your actual Google Apps Script web app URL
 const LOG_URL =
-  "https://script.google.com/macros/s/AKfycbxrKKSXl3-A37HwQaSiP45T740PgLh5YEM03mpRDCZBloKCztcAnai0o38u8Qe4Hb8qMA/exec";
+  "https://script.google.com/macros/s/AKfycbxzodGRJviTK88EpZYoNS3CsOzMFvo27tGOvmTErG_OgxqmsxuRsa-MwnbI7NYbYt-g6g/exec";
 
-// Function to send player actions to your Google Sheet
-function logAction(action, details) {
+// Send Player Action to Google Sheet
+function logAction(action, result = "") {
+  const pid = localStorage.getItem("participant_id") || "anon_" + Date.now();
+
+  // Read actual player object
+  const player = JSON.parse(localStorage.getItem("player")) || {
+    level: 1,
+    power: 0,
+    cards: [],
+    onePulls: 0,
+    tenPulls: 0,
+    currency: 0,
+  };
+
+  const addCurrencyUsed = localStorage.getItem("addCurrencyCount") || 0;
+
+  // Build readable collection summary
+  const collectionSummary = {};
+  player.cards.forEach((c) => {
+    collectionSummary[c.name] = (collectionSummary[c.name] || 0) + 1;
+  });
+
+  const payload = {
+    playerId: pid,
+    timestamp: new Date().toISOString(),
+    action: action,
+    result:
+      typeof result === "object" ? JSON.stringify(result) : String(result),
+    currentLevel: player.level || 1,
+    battlePower: player.power || 0,
+    collection: JSON.stringify(collectionSummary),
+    onePulls: player.onePulls || 0,
+    tenPulls: player.tenPulls || 0,
+    addCurrencyUsed: addCurrencyUsed,
+    currencyLeft: player.currency || 0,
+  };
+
   fetch(LOG_URL, {
     method: "POST",
-    mode: "no-cors", // Prevents CORS errors; response won't be visible
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      participant_id: "anon_" + Date.now(),
-      timestamp: new Date().toISOString(),
-      action: action,
-      details: details,
-    }),
-  }).catch((err) => {
-    console.error("Logging failed:", err);
-  });
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  }).catch((err) => console.error("Logging failed:", err));
 }
