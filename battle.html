@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="style.css" />
     <link
       rel="icon"
-      href="https://alice-ji.github.io/Gacha/assets/favicon.png"
+      href="assets/favicon.png"
       type="image/png"
     />
     <style>
@@ -62,7 +62,7 @@
       <!-- Enemy / Animation / Result Image (all in one slot) -->
       <img
         id="battleImage"
-        src="https://alice-ji.github.io/Gacha/assets/enemy1.png"
+        src="assets/enemy1.png"
         alt="Enemy"
         class="enemy-img"
       />
@@ -105,7 +105,7 @@
 
         // 👉 loop enemy images by level
         const enemyIndex = ((player.level - 1) % 4) + 1; // gives 1..4
-        battleImage.src = `https://alice-ji.github.io/Gacha/assets/enemy${enemyIndex}.png`;
+        battleImage.src = `assets/enemy${enemyIndex}.png`;
 
         localStorage.setItem("player", JSON.stringify(player));
       }
@@ -118,17 +118,17 @@
 
         // show animation first
         battleImage.src =
-          "https://alice-ji.github.io/Gacha/assets/battleanimation.gif";
+          "assets/battleanimation.gif";
 
         setTimeout(() => {
           if (result.win) {
             player.currency += 15;
             player.level++;
             battleImage.src =
-              "https://alice-ji.github.io/Gacha/assets/victory.png";
+              "assets/victory.png";
           } else {
             battleImage.src =
-              "https://alice-ji.github.io/Gacha/assets/failure.png";
+              "assets/failure.png";
           }
 
           player.power = player.cards.reduce((sum, c) => sum + c.power, 0);
