@@ -1,5 +1,11 @@
 # Gacha Game Behavioral Economies
-https://alice-ji.github.io/assets/gacha-demo2.mp4
+<video src="https://alice-ji.github.io/assets/gacha-demo2.mp4" 
+       autoplay 
+       loop 
+       muted 
+       playsinline 
+       style="max-width: 100%;">
+</video>
 This project investigates **player behavior and monetization patterns** in gacha-style games through a custom-built experimental platform.
 
 ## Overview
