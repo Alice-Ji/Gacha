@@ -1,5 +1,5 @@
 # Gacha Game Behavioral Economies
-This project investigates **player behavior and monetization patterns** in gacha-style games through a custom-built experimental platform.
+This project investigates **player behavior and monetization patterns** in gacha-style games through a custom-built experimental platform.  
 ![Gacha Demo](assets/gacha-demo2.gif)
 
 ## Overview
